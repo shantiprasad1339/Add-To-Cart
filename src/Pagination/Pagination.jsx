@@ -1,32 +1,33 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios';
 import './Test.css'
-import {usePagination} from './hook/Pagination';
+import {usePagination} from '../hook/Pagination';
 import {Pagination, colors} from '@mui/material'
-function App() {
+function Addtocart() {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('https://hub.dummyapis.com/employee?noofRecords=100&idStarts=1001');
-                console.log(response.data);
-                setData(response.data);
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const response = await axios.get('https://hub.dummyapis.com/employee?noofRecords=100&idStarts=1001');
+    //             console.log(response.data);
+    //             setData(response.data);
 
-                setLoading(true)
-            } catch (error) {
-                console.log('Error:', error);
-            }
-        };
+    //             setLoading(true)
+    //         } catch (error) {
+    //             console.log('Error:', error);
+    //         }
+    //     };
 
-        fetchData();
-    }, []);
+    //     fetchData();
+    // }, []);
 
 
     const [totalPages, startPageIndex, endPageIndex, currentPage, dispPage] = usePagination(3, data.length)
     console.log(totalPages);
     return (
         <>
+        <div className="mainDiv">
             <div className="apiData">
 
                 {
@@ -67,8 +68,9 @@ function App() {
                         }/>
                 </div>
             </div>
+            </div>
         </>
     )
 }
 
-export default App
+export default Addtocart
