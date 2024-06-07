@@ -3,14 +3,37 @@ import Data from './Data';
 import './Style.css';
 import { usePagination } from '../hook/Pagination';
 import { Pagination } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
+import { addItem, removeItem, updateQuantity,clearCart } from '../Redux/Slice';
+
+
+
+
+
+
+
+
+
 
 function Items(props) {
   const [data, setData] = useState(Data);
-  const { handleclick } = props;
   const [totalPages, startPageIndex, endPageIndex, currentPage, dispPage] = usePagination(6, data.length);
 
   const displayedData = data.slice(startPageIndex, endPageIndex + 1);
 
+  const dispatch = useDispatch();
+
+
+function handleclickCart(item){
+  let cartItem = {
+    title:item.title,
+    qty:1,
+    price:item.price,
+    img:item.img
+    }
+    dispatch(addItem(cartItem))
+  
+}
   return (
     <>
       <div className="Hero">
@@ -22,7 +45,7 @@ function Items(props) {
               </div>
               <p className="pric">price-{item.price}</p>
               <p className="des">{item.title}</p>
-              <button onClick={() => handleclick(item)}>add to cart</button>
+              <button onClick={() => handleclickCart(item)}>add to cart</button>
               <div className="details"></div>
             </div>
           </div>

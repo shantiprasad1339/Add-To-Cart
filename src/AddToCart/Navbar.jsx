@@ -3,6 +3,7 @@ import Items from './Items'
 import './Style.css'
 import Cart from './Cart';
 import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
+import { useSelector, useDispatch } from 'react-redux';
 
 import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
 function Navbar() {
@@ -10,41 +11,12 @@ function Navbar() {
   const [cart, setCart] = useState([]);
   const [warning, setWarning] = useState(false);
 
-  const handleclick = (item) => {
-
-    // console.log(cart.length);
-    let isPresent = false;
-    cart.forEach((product) => {
-      if (item.id === product.id)
-        isPresent = true;
-    })
-    if (isPresent) {
-      setWarning(true);
-      setTimeout(() => {
-        setWarning(false);
-      }, 2000);
-      return;
-    }
-    setCart([...cart, item]);
-  }
-
-  const handleChange = (item, d) =>{
-		let ind = -1;
-		cart.forEach((data, index)=>{
-			if (data.id === item.id)
-				ind = index;
-		});
-		const tempArr = cart;
-		tempArr[ind].amount += d;
-		
-		if (tempArr[ind].amount === 0)
-			tempArr[ind].amount = 1;
-		setCart([...tempArr])
-	}
+  const cartItems = useSelector((state) => state.cart.items);
+  
   return (
     <>
       <div className="MainNav">
-        <div className="logo">
+        <div className="logo" onClick={()=>setShow(true)}>
           <StorefrontOutlinedIcon />
         </div>
         {
@@ -52,13 +24,13 @@ function Navbar() {
         }
         <div className="cart">
           <div className="cartRoot" onClick={()=>setShow(!show)}>
-            <div className="number">{cart.length}</div>
+            <div className="number">{cartItems.length}</div>
             <AddShoppingCartOutlinedIcon className='icon'/>
           </div>
         
         </div>
       </div>
-      {show == false ? <Cart cart={cart} setCart={setCart} handleChange={handleChange}/> : <Items handleclick={handleclick} /> }
+      {show == false ? <Cart  /> : <Items  /> }
      
     </>
   )
